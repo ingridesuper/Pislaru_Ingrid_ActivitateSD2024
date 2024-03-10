@@ -51,10 +51,20 @@ struct Aeroport* citireFisier(const char* numeFisier, int* nrAeroporturi) {
 
 		//vector de doua delimitatoare!! new line si virgula
 		char delimitator[] = ",\n";
+		/*
+		The C library function char *fgets(char *str, int n, FILE *stream) reads a line from the specified 
+		stream and stores it into the string pointed to by str. It stops when either (n-1) characters are read, 
+		the newline character is read, or the end-of-file is reached, whichever comes first.*/
 		while (fgets(buffer, 99, f) != NULL) {
 			struct Aeroport aeroport;
 			//separa dupa virgula SAU newline!!!
 			// echivalent strtok(buffer, ",\n");
+
+			/*
+			The first time strtok is called, it expects the string to tokenize (str) as 
+			its first parameter. On subsequent calls, it expects NULL as the first parameter, 
+			indicating that it should continue tokenizing the same string.
+			*/
 			char* token = strtok(buffer, delimitator);
 			//parseuim sa fie int
 			//atoi conversie ascii to int
@@ -91,6 +101,15 @@ void afisareVector(struct Aeroport* vector, int dimensiune) {
 	}
 }
 
+void dezalocare(struct Aeroport** vector, int* dim) {
+	for (int i = 0; i < (*dim); i++) {
+		free((*vector)[i].nume);
+	}
+	free(*vector);
+	(*vector) = NULL;
+	*dim = 0;
+}
+
 
 int main() {
 	int dimensiune = 2;
@@ -104,6 +123,6 @@ int main() {
 	struct Aeroport* aeroporturi = NULL;
 	aeroporturi=citireFisier("fisier.txt", &dimensiune);
 	afisareVector(aeroporturi, dimensiune);
-	//dezalocare aici
-	//fa metoda 
+	dezalocare(&aeroporturi, &dimensiune);
+	return 0;
 }
