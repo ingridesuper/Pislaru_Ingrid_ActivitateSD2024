@@ -101,6 +101,19 @@ void afisareVector(struct Aeroport* vector, int dimensiune) {
 	}
 }
 
+struct Aeroport idCautat(struct Aeroport* vector, int nr, int id) {
+	for (int i = 0; i < nr; i++) {
+		if (vector[i].id == id) {
+			return vector[i];
+		}
+	}
+	struct Aeroport a;
+	a.id = -1;
+	a.nrTerminale = -1;
+	a.nume = "N/A";
+	return a;
+}
+
 void dezalocare(struct Aeroport** vector, int* dim) {
 	for (int i = 0; i < (*dim); i++) {
 		free((*vector)[i].nume);
